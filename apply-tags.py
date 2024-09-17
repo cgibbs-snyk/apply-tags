@@ -43,7 +43,8 @@ def startup():
 
     if DRY_RUN:
         # Confirm to the user if dry-run mode is active or not
-        print(f"[Dry Run] Project {project_id} would be tagged with value {tag_value}")
+        print("Dry Run mode is active -- projects and tags will be identified but no tags will be applied.")
+        print("-" * 25)
 
     # Mapping SCM types (origin) to a tag format for later use
     ORIGIN_TAG_MAP = {
@@ -116,8 +117,8 @@ def startup():
 
 # Function to retrieve target ID(s) by target name
 def get_target_id_by_name(target_name):
-    url = f"{BASE_URL}/rest/orgs/{ORG_ID}/targets?version=2024-09-04&display_name={target_name}"
-    
+    url = f"{BASE_URL}/rest/orgs/{ORG_ID}/targets?version=2024-09-04&source_types={ORIGIN}&display_name={target_name}"
+    print(url)
     headers = {
         'Accept': 'application/vnd.api+json',
         'Authorization': f'token {SNYK_TOKEN}'
@@ -230,7 +231,13 @@ def main():
         for p in projects:        
             project_id = p['id']
             repo = p['attributes']['name'].split(":")[0].split("(")[0]  # Extract repository name
-            branch = p['attributes']['target_reference']  # Get branch name
+            branch = p['attributes'].get('target_reference')  # Get branch name
+            if not branch:
+                # If no branch (target reference) is found, print error and skip tagging
+                print(f"ERROR: No Target Reference (branch) detected for project '{project_id}' in '{repo}', no tag applied.")
+                print("-" * 5)
+                continue  # Skip to the next project
+
             tag_value = f'pkg:{ORIGIN_TAG}:{repo}@{branch}'  # Create tag value
 
             if DRY_RUN:
