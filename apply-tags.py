@@ -1,3 +1,4 @@
+# Version 1.0, 17 Sep 2024
 import requests, sys, urllib.parse, os
 from argparse import ArgumentParser
 
