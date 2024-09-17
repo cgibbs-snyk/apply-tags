@@ -78,3 +78,9 @@ You can also set environment variables for frequently used options, such as the 
 
 `SNYK_TOKEN`: Used to provide the Snyk API token.
 If both the SNYK_TOKEN environment variable and --snyk-token argument are provided, the script will prioritize the command-line argument and print a message indicating that both were present.
+
+---
+
+## Version History
+
+Sep 17 2024: v1.0 published
