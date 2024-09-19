@@ -1,4 +1,4 @@
-# Version 1.0, 17 Sep 2024
+# Version 1.1, 19 Sep 2024
 import requests, sys, urllib.parse, os
 from argparse import ArgumentParser
 
@@ -119,7 +119,6 @@ def startup():
 # Function to retrieve target ID(s) by target name
 def get_target_id_by_name(target_name):
     url = f"{BASE_URL}/rest/orgs/{ORG_ID}/targets?version=2024-09-04&source_types={ORIGIN}&display_name={target_name}"
-    print(url)
     headers = {
         'Accept': 'application/vnd.api+json',
         'Authorization': f'token {SNYK_TOKEN}'
@@ -128,9 +127,8 @@ def get_target_id_by_name(target_name):
     response = requests.get(url, headers=headers)
 
     if response.status_code != 200:
-        raise requests.exceptions.RequestException(
-            f"Failed to retrieve targets: {response.status_code} {response.reason}"
-        )
+        sys.exit(f"Failed to retrieve targets: {response.status_code} {response.reason} (Check your Org ID is valid)")
+
 
     targets = response.json()
 
