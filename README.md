@@ -26,7 +26,7 @@ To run this script you need to ensure that `requests` is available in Python, wh
 
 **Additional:**
 
-`--base-url`: The API Base URL of the Snyk tenant where you watn to apply tags, e.g. `https://api.eu.snyk.io`.
+`--base-url`: The API Base URL of the Snyk tenant where you want to apply tags, e.g. `https://api.eu.snyk.io`.
 
 `--dry-run`: Use this command to simulate the process without actually applying tags to projects. This will print the results to the terminal but won't make any changes.
 
